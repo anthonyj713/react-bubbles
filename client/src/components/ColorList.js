@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { useHistory } from 'react-router-dom';
 
 const initialColor = {
   color: "",
@@ -7,9 +8,10 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  const { push } = useHistory();
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+
 
   const editColor = color => {
     setEditing(true);
@@ -21,9 +23,12 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        console.log({res})
-        editColor(res.data)
-        window.location.reload()
+        console.log('res', res)
+        console.log('res data', res.data)
+        console.log('resdatacolor', res.data.color)
+        console.log('resdatacode', res.data.code)
+        setColorToEdit(res.data);
+        // window.location.reload();
       })
       .catch(err => console.log({err}))
   };
@@ -32,9 +37,9 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .delete(`/api/colors/${color.id}`)
       .then(res => {
-        console.log({res})
-        colors.filter(color => `${color.id}` !== res.data);
-        window.location.reload();
+        const newColors = colors.filter(c => `${c.id}` != res.data);
+        updateColors(newColors);
+        push('/bubbles');
       })
       .catch(err => console.log({err}))
   };

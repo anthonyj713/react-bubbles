@@ -10,9 +10,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Link to='/login'>Login</Link>
+        <Link to='/'>Login</Link>
         <Switch>
-        <ProtectedRoute exact path= '/bubbles' component={BubblePage} />
+        <ProtectedRoute exact path='/bubbles' component={BubblePage} />
         <Route exact path="/" component={Login} />
         </Switch>
       </div>
