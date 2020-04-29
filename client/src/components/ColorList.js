@@ -16,6 +16,7 @@ const ColorList = ({ colors, updateColors }) => {
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
+    push(`/update-color/${color.id}`) 
   };
 
   const saveEdit = e => {
@@ -23,12 +24,10 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        console.log('res', res)
-        console.log('res data', res.data)
-        console.log('resdatacolor', res.data.color)
-        console.log('resdatacode', res.data.code)
         setColorToEdit(res.data);
         // window.location.reload();
+        // push('/api/colors/')
+        
       })
       .catch(err => console.log({err}))
   };
@@ -39,7 +38,7 @@ const ColorList = ({ colors, updateColors }) => {
       .then(res => {
         const newColors = colors.filter(c => `${c.id}` != res.data);
         updateColors(newColors);
-        push('/bubbles');
+        push('/api/colors/');
       })
       .catch(err => console.log({err}))
   };
@@ -50,6 +49,7 @@ const ColorList = ({ colors, updateColors }) => {
       <ul>
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
+          
             <span>
               <span className="delete" onClick={e => {
                     e.stopPropagation();

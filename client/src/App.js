@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
 import BubblePage from './components/BubblePage';
 
+
 import "./styles.scss";
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <div className="App">
         <Link to='/'>Login</Link>
         <Switch>
-        <ProtectedRoute exact path='/bubbles' component={BubblePage} />
+        <ProtectedRoute path='/api/colors/' component={BubblePage} />
+        <ProtectedRoute path='update-color/:id' component={BubblePage} />
         <Route exact path="/" component={Login} />
         </Switch>
       </div>
